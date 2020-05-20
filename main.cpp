@@ -14,14 +14,21 @@ DWORD WINAPI FarmThreadProc(PVOID arg) {
     ExitThread(0);
 }
 
+DWORD WINAPI WarehouseThreadProc(PVOID arg) {
+    cout << "Warehouse start!\n";
+    ExitThread(0);
+}
+
 int main() {
     cout << "Start program!\n";
 
     HANDLE marketThread = CreateThread(nullptr, 0, MarketThreadProc, (PVOID) 1, 0, nullptr);
     HANDLE farmThread = CreateThread(nullptr, 0, FarmThreadProc, (PVOID) 1, 0, nullptr);
+    HANDLE warehouseThread = CreateThread(nullptr, 0, WarehouseThreadProc, (PVOID) 1, 0, nullptr);
 
     cout << "End program!\n";
     WaitForSingleObject(marketThread, INFINITE);
     WaitForSingleObject(farmThread, INFINITE);
+    WaitForSingleObject(warehouseThread, INFINITE);
     return 0;
 }
