@@ -20,6 +20,6 @@ void BinarySemaphore::Up() {
     ReleaseSemaphore(sem, 1, nullptr);
 }
 
-void BinarySemaphore::Down() {
-    WaitForSingleObject(sem, INFINITE);
+void BinarySemaphore::Down(DWORD milliseconds) {
+    WaitForSingleObject(sem, milliseconds);
 }

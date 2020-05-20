@@ -17,7 +17,7 @@ public:
 
     void Up();
 
-    void Down();
+    void Down(DWORD milliseconds = INFINITE);
 };
 
 
