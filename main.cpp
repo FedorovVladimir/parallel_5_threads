@@ -1,38 +1,13 @@
 #include <iostream>
 #include <windows.h>
+#include "processes/market.h"
+#include "processes/farm.h"
+#include "processes/warehouse.h"
+#include "processes/bakery.h"
+#include "processes/meat_processing_plant.h"
+#include "processes/burger_joint.h"
 
 using namespace std;
-
-
-DWORD WINAPI MarketThreadProc(PVOID arg) {
-    cout << "Market start!\n";
-    ExitThread(0);
-}
-
-DWORD WINAPI FarmThreadProc(PVOID arg) {
-    cout << "Farm start!\n";
-    ExitThread(0);
-}
-
-DWORD WINAPI WarehouseThreadProc(PVOID arg) {
-    cout << "Warehouse start!\n";
-    ExitThread(0);
-}
-
-DWORD WINAPI BakeryThreadProc(PVOID arg) {
-    cout << "Bakery start!\n";
-    ExitThread(0);
-}
-
-DWORD WINAPI MeatProcessingPlantThreadProc(PVOID arg) {
-    cout << "MeatProcessingPlant start!\n";
-    ExitThread(0);
-}
-
-DWORD WINAPI BurgerJointThreadProc(PVOID arg) {
-    cout << "BurgerJoint start!\n";
-    ExitThread(0);
-}
 
 int main() {
     cout << "Start program!\n";
