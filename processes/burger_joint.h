@@ -7,11 +7,16 @@
 
 #include <iostream>
 #include <windows.h>
+#include "../lib/BinarySemaphore.h"
+#include "../lib/IntegerChannel.h"
 
 using namespace std;
 
 DWORD WINAPI BurgerJointThreadProc(PVOID arg) {
     cout << "BurgerJoint start!\n";
+    while (true) {
+
+    }
     ExitThread(0);
 }
 

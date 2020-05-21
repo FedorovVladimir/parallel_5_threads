@@ -7,11 +7,16 @@
 
 #include <iostream>
 #include <windows.h>
+#include "../lib/BinarySemaphore.h"
+#include "../lib/IntegerChannel.h"
 
 using namespace std;
 
 DWORD WINAPI MeatProcessingPlantThreadProc(PVOID arg) {
     cout << "MeatProcessingPlant start!\n";
+    while (true) {
+
+    }
     ExitThread(0);
 }
 

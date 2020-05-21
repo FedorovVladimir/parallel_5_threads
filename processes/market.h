@@ -7,11 +7,16 @@
 
 #include <iostream>
 #include <windows.h>
+#include "../lib/BinarySemaphore.h"
+#include "../lib/IntegerChannel.h"
 
 using namespace std;
 
 DWORD WINAPI MarketThreadProc(PVOID arg) {
     cout << "Market start!\n";
+    while (true) {
+
+    }
     ExitThread(0);
 }
 
