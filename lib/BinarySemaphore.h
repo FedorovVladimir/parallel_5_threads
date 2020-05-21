@@ -11,7 +11,7 @@ class BinarySemaphore {
 private:
     HANDLE sem;
 public:
-    BinarySemaphore(const char *name, int startState);
+    explicit BinarySemaphore(const char *name, int startState = 0);
 
     ~BinarySemaphore();
 
