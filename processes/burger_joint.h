@@ -7,17 +7,29 @@
 
 #include <iostream>
 #include <windows.h>
-#include "../lib/BinarySemaphore.h"
 #include "../lib/IntegerChannel.h"
+#include "../lib/IntegerSemaphore.h"
+
+void endGame(IntegerSemaphore &endSemaphore);
 
 using namespace std;
 
 DWORD WINAPI BurgerJointThreadProc(PVOID arg) {
     cout << "BurgerJoint start!\n";
-    while (true) {
+    IntegerSemaphore endSemaphore("end_game");
 
+    while (true) {
+        if (endSemaphore.Down(100)) {
+            break;
+        }
+        endGame(endSemaphore);
     }
+    cout << "BurgerJoint end!\n";
     ExitThread(0);
+}
+
+void endGame(IntegerSemaphore &endSemaphore) {
+    endSemaphore.Up(6);
 }
 
 #endif //PARALLEL_5_THREADS_BURGER_JOINT_H

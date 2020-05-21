@@ -7,16 +7,21 @@
 
 #include <iostream>
 #include <windows.h>
-#include "../lib/BinarySemaphore.h"
 #include "../lib/IntegerChannel.h"
+#include "../lib/IntegerSemaphore.h"
 
 using namespace std;
 
 DWORD WINAPI FarmThreadProc(PVOID arg) {
     cout << "Farm start!\n";
-    while (true) {
+    IntegerSemaphore endSemaphore("end_game");
 
+    while (true) {
+        if (endSemaphore.Down(100)) {
+            break;
+        }
     }
+    cout << "Farm end!\n";
     ExitThread(0);
 }
 
