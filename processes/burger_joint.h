@@ -11,15 +11,17 @@
 #include "../lib/IntegerChannel.h"
 #include "../lib/IntegerSemaphore.h"
 
-void endGame(IntegerSemaphore &endSemaphore);
-
 using namespace std;
 
+void endGame(IntegerSemaphore &endSemaphore);
+
 DWORD WINAPI BurgerJointThreadProc(PVOID arg) {
+    int ping = 1000; // время одного цикла работ
     cout << "BurgerJoint start!\n";
     IntegerSemaphore endSemaphore("end_game");
 
     while (true) {
+        Sleep(ping);
 
         // конец игры
         if (endSemaphore.Down(100)) {

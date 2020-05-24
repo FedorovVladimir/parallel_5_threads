@@ -14,10 +14,12 @@
 using namespace std;
 
 DWORD WINAPI MeatProcessingPlantThreadProc(PVOID arg) {
+    int ping = 1000; // время одного цикла работ
     cout << "MeatProcessingPlant start!\n";
     IntegerSemaphore endSemaphore("end_game");
 
     while (true) {
+        Sleep(ping);
 
         // конец игры
         if (endSemaphore.Down(100)) {
