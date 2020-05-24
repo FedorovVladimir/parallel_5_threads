@@ -2,6 +2,16 @@
 // Created by vladimir on 20.05.2020.
 // Ферма
 //
+// Производит муку
+// Передает муку на склад
+// Продает муку на рынке
+// Выбрасывает муку
+//
+// Выращивает овощи
+// Передает овощи на склад
+// Продает овощи на рынке
+// Выбрасывает овощи
+//
 
 #ifndef PARALLEL_5_THREADS_FARM_H
 #define PARALLEL_5_THREADS_FARM_H
@@ -13,10 +23,18 @@
 
 using namespace std;
 
+
 int stockFlour = 0; // произведенная мука в запасе
 int maxStockFlour = 10; // максимальная вместимость запаса муки
 
-int flourOfCycle = 0; // произведенная за цикл мука
+int flourOfCycle = 0; // произведенная мука за цикл мука
+
+
+int stockVegetables = 0; // произведенные овощи в запасе
+int maxStockVegetables = 10; // максимальная вместимость запаса овощей
+
+int vegetablesOfCycle = 0; // произведенные за цикл овощи
+
 
 DWORD WINAPI FarmThreadProc(PVOID arg) {
     int ping = 1000; // время одного цикла работ
@@ -25,6 +43,8 @@ DWORD WINAPI FarmThreadProc(PVOID arg) {
     BinarySemaphore farmHasFlour("farm_has_flour");
     BinarySemaphore warehouseHasPlaceForFlour("warehouse_has_place_for_flour", 1);
     BinarySemaphore marketHasPlaceForFlour("market_has_place_for_flour", 1);
+    BinarySemaphore warehouseHasPlaceForVegetables("warehouse_has_place_for_vegetables", 1);
+    BinarySemaphore marketHasPlaceForVegetables("market_has_place_for_vegetables", 1);
 
     while (true) {
         Sleep(ping);
@@ -33,31 +53,53 @@ DWORD WINAPI FarmThreadProc(PVOID arg) {
         // производство муки
         flourOfCycle = 1;
         string msg = "Farm: Create 1 floor. ";
-
-
         // передаем муку в запас
         if (stockFlour < maxStockFlour) {
             stockFlour += 1;
             flourOfCycle = 0;
-            msg += "Transfer floor on stock\n";
+            msg += "Transfer floor on stock.";
         }
         // передаем единицу муки на склад
         if (flourOfCycle && warehouseHasPlaceForFlour.Down(1)) {
             flourOfCycle = 0;
-            msg += "Transfer floor on warehouse\n";
+            msg += "Transfer floor on warehouse.";
         }
         // продаем единицу муки
         if (flourOfCycle && marketHasPlaceForFlour.Down(1)) {
             flourOfCycle = 0;
-            msg += "Transfer floor on market\n";
+            msg += "Transfer floor on market.";
         }
         // выбрасываем муку
         if (flourOfCycle) {
             flourOfCycle = 0;
-            msg += "Transfer floor on trash\n";
+            msg += "Transfer floor on trash.";
         }
-        cout << msg;
 
+
+        // производство овощей
+        vegetablesOfCycle = 1;
+        msg += " | Create 1 vegetables. ";
+        // передаем овощи в запас
+        if (stockVegetables < maxStockVegetables) {
+            stockVegetables += 1;
+            vegetablesOfCycle = 0;
+            msg += "Transfer floor on stock.";
+        }
+        // передаем единицу овощей на склад
+        if (vegetablesOfCycle && warehouseHasPlaceForVegetables.Down(1)) {
+            vegetablesOfCycle = 0;
+            msg += "Transfer floor on warehouse.";
+        }
+        // продаем единицу овощей
+        if (vegetablesOfCycle && marketHasPlaceForVegetables.Down(1)) {
+            vegetablesOfCycle = 0;
+            msg += "Transfer floor on market.";
+        }
+        // выбрасываем овощи
+        if (vegetablesOfCycle) {
+            vegetablesOfCycle = 0;
+            msg += "Transfer floor on trash.";
+        }
 
         // Если есть мука
         if (stockFlour) {
@@ -65,6 +107,9 @@ DWORD WINAPI FarmThreadProc(PVOID arg) {
         } else {
             farmHasFlour.Down(100);
         }
+
+
+        cout << msg + "\n";
 
 
         // конец игры
