@@ -13,13 +13,29 @@
 
 using namespace std;
 
+int flour = 0; // мука на складе
+int flourMax = 5; // максимальное количество муки на складе
+
 DWORD WINAPI WarehouseThreadProc(PVOID arg) {
     int ping = 1000; // время одного цикла работ
     cout << "Warehouse start!\n";
     IntegerSemaphore endSemaphore("end_game");
+    BinarySemaphore warehouseHasPlaceForFlour("warehouse_has_place_for_flour", 1);
 
     while (true) {
         Sleep(ping);
+
+
+        // если место под муку есть
+        if (flour < flourMax) {
+            if (warehouseHasPlaceForFlour.Up()) {
+                flour += 1;
+                cout << "Warehouse: Get flour\n";
+            }
+        } else {
+            warehouseHasPlaceForFlour.Down(100);
+        }
+
 
         // конец игры
         if (endSemaphore.Down(100)) {

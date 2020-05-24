@@ -16,8 +16,10 @@ BinarySemaphore::~BinarySemaphore() {
     CloseHandle(sem);
 }
 
-void BinarySemaphore::Up() {
-    ReleaseSemaphore(sem, 1, nullptr);
+bool BinarySemaphore::Up() {
+    LONG prev;
+    ReleaseSemaphore(sem, 1, &prev);
+    return prev == 0;
 }
 
 bool BinarySemaphore::Down(DWORD milliseconds) {

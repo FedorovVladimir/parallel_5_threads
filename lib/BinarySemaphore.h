@@ -15,7 +15,7 @@ public:
 
     ~BinarySemaphore();
 
-    void Up();
+    bool Up();
 
     bool Down(DWORD milliseconds = INFINITE);
 };

@@ -23,43 +23,49 @@ DWORD WINAPI FarmThreadProc(PVOID arg) {
     cout << "Farm start!\n";
     IntegerSemaphore endSemaphore("end_game");
     BinarySemaphore farmHasFlour("farm_has_flour");
-    BinarySemaphore warehouseHasPlaceForFlour("warehouse_has_place_for_flour");
-    BinarySemaphore marketHasPlaceForFlour("market_has_place_for_flour");
+    BinarySemaphore warehouseHasPlaceForFlour("warehouse_has_place_for_flour", 1);
+    BinarySemaphore marketHasPlaceForFlour("market_has_place_for_flour", 1);
 
     while (true) {
         Sleep(ping);
 
+
         // производство муки
         flourOfCycle = 1;
-        string msg = "Farm: Create 1 floor.";
+        string msg = "Farm: Create 1 floor. ";
+
+
         // передаем муку в запас
         if (stockFlour < maxStockFlour) {
             stockFlour += 1;
             flourOfCycle = 0;
-            msg += " Transfer floor on stock\n";
+            msg += "Transfer floor on stock\n";
         }
         // передаем единицу муки на склад
         if (flourOfCycle && warehouseHasPlaceForFlour.Down(1)) {
             flourOfCycle = 0;
-            msg += " Transfer floor on warehouse\n";
+            msg += "Transfer floor on warehouse\n";
         }
         // продаем единицу муки
         if (flourOfCycle && marketHasPlaceForFlour.Down(1)) {
             flourOfCycle = 0;
-            msg += " Transfer floor on market\n";
+            msg += "Transfer floor on market\n";
         }
         // выбрасываем муку
         if (flourOfCycle) {
             flourOfCycle = 0;
-            msg += " Transfer floor on trash\n";
+            msg += "Transfer floor on trash\n";
         }
         cout << msg;
+
+
         // Если есть мука
         if (stockFlour) {
             farmHasFlour.Up();
         } else {
             farmHasFlour.Down(100);
         }
+
 
         // конец игры
         if (endSemaphore.Down(100)) {
