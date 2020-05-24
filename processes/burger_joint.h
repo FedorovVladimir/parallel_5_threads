@@ -27,7 +27,8 @@ DWORD WINAPI BurgerJointThreadProc(PVOID arg) {
         if (endSemaphore.Down(100)) {
             break;
         }
-        endGame(endSemaphore);
+        // todo разкомментировать конец игры
+        // endGame(endSemaphore);
     }
     cout << "BurgerJoint end!\n";
     ExitThread(0);
