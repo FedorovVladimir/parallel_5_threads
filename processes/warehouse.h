@@ -17,6 +17,8 @@ DWORD WINAPI WarehouseThreadProc(PVOID arg) {
     IntegerSemaphore endSemaphore("end_game");
 
     while (true) {
+
+        // конец игры
         if (endSemaphore.Down(100)) {
             break;
         }
