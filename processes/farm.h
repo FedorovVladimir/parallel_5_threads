@@ -1,5 +1,6 @@
 //
 // Created by vladimir on 20.05.2020.
+// Ферма
 //
 
 #ifndef PARALLEL_5_THREADS_FARM_H

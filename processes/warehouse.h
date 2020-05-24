@@ -1,5 +1,6 @@
 //
 // Created by vladimir on 20.05.2020.
+// Склад
 //
 
 #ifndef PARALLEL_5_THREADS_WAREHOUSE_H

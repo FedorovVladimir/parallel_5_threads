@@ -1,5 +1,6 @@
 //
 // Created by vladimir on 20.05.2020.
+// Бургерная
 //
 
 #ifndef PARALLEL_5_THREADS_BURGER_JOINT_H

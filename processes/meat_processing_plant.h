@@ -1,5 +1,6 @@
 //
 // Created by vladimir on 20.05.2020.
+// Мясокомбинат
 //
 
 #ifndef PARALLEL_5_THREADS_MEAT_PROCESSING_PLANT_H

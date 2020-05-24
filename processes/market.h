@@ -1,5 +1,6 @@
 //
 // Created by vladimir on 20.05.2020.
+// Рынок
 //
 
 #ifndef PARALLEL_5_THREADS_MARKET_H
