@@ -12,8 +12,6 @@ using namespace std;
 int main() {
     cout << "Start program!\n";
 
-    IntegerSemaphore endSemaphore("end_game", 0, 6);
-
     HANDLE marketThread = CreateThread(nullptr, 0, MarketThreadProc, (PVOID) 1, 0, nullptr);
     HANDLE farmThread = CreateThread(nullptr, 0, FarmThreadProc, (PVOID) 1, 0, nullptr);
     HANDLE warehouseThread = CreateThread(nullptr, 0, WarehouseThreadProc, (PVOID) 1, 0, nullptr);
