@@ -17,6 +17,9 @@ DWORD WINAPI BakeryThreadProc(PVOID arg) {
     int ping = 1000; // время одного цикла работ
     cout << "Bakery start!\n";
     IntegerSemaphore endSemaphore("end_game");
+    IntegerSemaphore hasFlourF2B("hasFlourF2B");
+
+    IntegerChannel sendFlourToBakery("flourF2B");
 
     while (true) {
         Sleep(ping);
