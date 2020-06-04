@@ -46,6 +46,8 @@ DWORD WINAPI FarmThreadProc(PVOID arg) {
     BinarySemaphore warehouseHasPlaceForVegetables("warehouse_has_place_for_vegetables", 1);
     BinarySemaphore marketHasPlaceForVegetables("market_has_place_for_vegetables", 1);
 
+    IntegerChannel sendFlourToBakery("flourF2B");
+
     while (true) {
         Sleep(ping);
 
