@@ -13,6 +13,9 @@
 
 using namespace std;
 
+int bakeryFlour = 0; // произведенная мука в запасе
+int maxBakeryFlour = 5; // максимальная вместимость запаса муки
+
 DWORD WINAPI BakeryThreadProc(PVOID arg) {
     int ping = 1000; // время одного цикла работ
     cout << "Bakery start!\n";
@@ -23,6 +26,23 @@ DWORD WINAPI BakeryThreadProc(PVOID arg) {
 
     while (true) {
         Sleep(ping);
+
+        // просим муку у фермы
+        if (bakeryFlour < maxBakeryFlour) {
+            int k = (maxBakeryFlour - bakeryFlour);
+            howManyFlourToBakery.setData(k);
+            printf("Bakery: need %d flour from Farm\n", k);
+        }
+
+        // забираем муку у фермы
+        int k = sendFlourToBakery.getData();
+        if (k) {
+            bakeryFlour += k;
+            if (bakeryFlour > maxBakeryFlour) {
+                bakeryFlour = maxBakeryFlour;
+            }
+            printf("Bakery: get %d flour from Farm\n", k);
+        }
 
         // конец игры
         if (endSemaphore.Down(100)) {

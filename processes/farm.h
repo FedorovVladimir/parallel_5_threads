@@ -51,6 +51,15 @@ DWORD WINAPI FarmThreadProc(PVOID arg) {
     while (true) {
         Sleep(ping);
 
+        // отправляем муку в пекарню
+        int k = howManyFlourToBakery.getData();
+        if (k) {
+            int flour = min(stockFlour, k);
+            stockFlour -= flour;
+            sendFlourToBakery.setData(flour);
+            printf("Farm: send %d flour\n", flour);
+        }
+
 
         // производство муки
         flourOfCycle = 1;
