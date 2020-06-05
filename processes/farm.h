@@ -40,14 +40,13 @@ DWORD WINAPI FarmThreadProc(PVOID arg) {
     int ping = 1000; // время одного цикла работ
     cout << "Farm start!\n";
     IntegerSemaphore endSemaphore("end_game");
-    BinarySemaphore farmHasFlour("farm_has_flour");
     BinarySemaphore warehouseHasPlaceForFlour("warehouse_has_place_for_flour", 1);
     BinarySemaphore marketHasPlaceForFlour("market_has_place_for_flour", 1);
     BinarySemaphore warehouseHasPlaceForVegetables("warehouse_has_place_for_vegetables", 1);
     BinarySemaphore marketHasPlaceForVegetables("market_has_place_for_vegetables", 1);
-    IntegerSemaphore hasFlourF2B("hasFlourF2B");
 
-    IntegerChannel sendFlourToBakery("flourF2B");
+    IntegerChannel howManyFlourToBakery("howManyFlourF2B");
+    IntegerChannel sendFlourToBakery("sendFlourF2B");
 
     while (true) {
         Sleep(ping);
@@ -102,13 +101,6 @@ DWORD WINAPI FarmThreadProc(PVOID arg) {
         if (vegetablesOfCycle) {
             vegetablesOfCycle = 0;
             msg += "Transfer floor on trash.";
-        }
-
-        // Если есть мука
-        if (stockFlour) {
-            farmHasFlour.Up();
-        } else {
-            farmHasFlour.Down(100);
         }
 
 
