@@ -18,7 +18,7 @@ DWORD WINAPI BakeryThreadProc(PVOID arg) {
     cout << "Bakery start!\n";
     IntegerSemaphore endSemaphore("end_game");
 
-    IntegerChannel howManyFlourToBakery("howManyFlourF2B");
+    IntegerChannel howManyFlourToBakery("hManyFlourF2B");
     IntegerChannel sendFlourToBakery("sendFlourF2B");
 
     while (true) {
