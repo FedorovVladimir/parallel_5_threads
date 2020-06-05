@@ -16,6 +16,9 @@ using namespace std;
 int meatProcessingPlantMeat = 0; // запас мяса
 int maxMeatProcessingPlantMeat = 5; // максимальная вместимость запаса мяса
 
+int cutlet = 0; // запас котлет
+int maxCutlet = 10; //  максимальная вместимость запаса котлет
+
 DWORD WINAPI MeatProcessingPlantThreadProc(PVOID arg) {
     int ping = 1000; // время одного цикла работ
     cout << "MeatProcessingPlant start!\n";
@@ -42,6 +45,22 @@ DWORD WINAPI MeatProcessingPlantThreadProc(PVOID arg) {
                 meatProcessingPlantMeat = maxMeatProcessingPlantMeat;
             }
             printf("MeatProcessingPlant: get %d meat from Farm\n", k);
+        }
+
+
+        // делаем котлеты
+        if (meatProcessingPlantMeat >= 2) {
+            int b = meatProcessingPlantMeat / 2;
+            if (b) {
+                if (cutlet < maxCutlet) {
+                    meatProcessingPlantMeat -= b * 2;
+                    cutlet += b;
+                    printf("Bakery: create %d cutlet\n", b);
+                    if (cutlet > maxCutlet) {
+                        cutlet = maxCutlet;
+                    }
+                }
+            }
         }
 
 

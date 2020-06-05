@@ -13,6 +13,15 @@
 
 using namespace std;
 
+int burgerJointMeat = 0; // запас котлет
+int maxBurgerJointMeat = 0; // максимальная вместимость запаса котлет
+
+int burgerJointBuns = 0; // запас булочек
+int maxBurgerJointBuns = 0; // максимальная вместимость запаса булочек
+
+int burger = 0; // сейчас
+int maxBurger = 5; // цель игры
+
 void endGame(IntegerSemaphore &endSemaphore);
 
 DWORD WINAPI BurgerJointThreadProc(PVOID arg) {
@@ -27,8 +36,10 @@ DWORD WINAPI BurgerJointThreadProc(PVOID arg) {
         if (endSemaphore.Down(100)) {
             break;
         }
-        // todo разкомментировать конец игры
-        // endGame(endSemaphore);
+
+        if (burger == maxBurger) {
+             endGame(endSemaphore);
+        }
     }
     cout << "BurgerJoint end!\n";
     ExitThread(0);
