@@ -13,8 +13,8 @@
 
 using namespace std;
 
-int meatProcessingPlantMeat = 0;
-int maxMeatProcessingPlantMeat = 5;
+int meatProcessingPlantMeat = 0; // запас мяса
+int maxMeatProcessingPlantMeat = 5; // максимальная вместимость запаса мяса
 
 DWORD WINAPI MeatProcessingPlantThreadProc(PVOID arg) {
     int ping = 1000; // время одного цикла работ
