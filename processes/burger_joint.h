@@ -38,6 +38,43 @@ DWORD WINAPI BurgerJointThreadProc(PVOID arg) {
     while (true) {
         Sleep(ping);
 
+
+        // просим котлеты
+        if (burgerJointCutlet < maxBurgerJointCutlet) {
+            int k = (maxBurgerJointCutlet - burgerJointCutlet);
+            howManyCutletToBurger.setData(k);
+            printf("Burger_joint: need %d cutlet\n", k);
+        }
+
+        // забираем котлеты
+        int k = sendCutletToBurger.getData();
+        if (k) {
+            burgerJointCutlet += k;
+            if (burgerJointCutlet > maxBurgerJointCutlet) {
+                burgerJointCutlet = maxBurgerJointCutlet;
+            }
+            printf(": get %d meat cutlet\n", k);
+        }
+
+
+        // просим булочки
+        if (burgerJointBuns < maxBurgerJointCutlet) {
+            int c = (maxBurgerJointCutlet - burgerJointBuns);
+            howManyCutletToBurger.setData(c);
+            printf("Burger_joint: need %d cutlet\n", c);
+        }
+
+        // забираем булочки
+        k = sendCutletToBurger.getData();
+        if (k) {
+            burgerJointBuns += k;
+            if (burgerJointBuns > maxBurgerJointCutlet) {
+                burgerJointBuns = maxBurgerJointCutlet;
+            }
+            printf(": get %d meat cutlet\n", k);
+        }
+
+
         // конец игры
         if (endSemaphore.Down(100)) {
             break;

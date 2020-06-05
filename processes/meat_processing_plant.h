@@ -33,6 +33,7 @@ DWORD WINAPI MeatProcessingPlantThreadProc(PVOID arg) {
     while (true) {
         Sleep(ping);
 
+
         // просим мясо у фермы
         if (meatProcessingPlantMeat < maxMeatProcessingPlantMeat) {
             int k = (maxMeatProcessingPlantMeat - meatProcessingPlantMeat);
