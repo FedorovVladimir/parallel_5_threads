@@ -53,25 +53,25 @@ DWORD WINAPI BurgerJointThreadProc(PVOID arg) {
             if (burgerJointCutlet > maxBurgerJointCutlet) {
                 burgerJointCutlet = maxBurgerJointCutlet;
             }
-            printf(": get %d meat cutlet\n", k);
+            printf("Burger_joint: get %d meat cutlet\n", k);
         }
 
 
         // просим булочки
-        if (burgerJointBuns < maxBurgerJointCutlet) {
-            int c = (maxBurgerJointCutlet - burgerJointBuns);
-            howManyCutletToBurger.setData(c);
+        if (burgerJointBuns < maxBurgerJointBuns) {
+            int c = (maxBurgerJointBuns - burgerJointBuns);
+            howManyBunsToBurger.setData(c);
             printf("Burger_joint: need %d cutlet\n", c);
         }
 
         // забираем булочки
-        k = sendCutletToBurger.getData();
+        k = sendBunsToBurger.getData();
         if (k) {
             burgerJointBuns += k;
-            if (burgerJointBuns > maxBurgerJointCutlet) {
-                burgerJointBuns = maxBurgerJointCutlet;
+            if (burgerJointBuns > maxBurgerJointBuns) {
+                burgerJointBuns = maxBurgerJointBuns;
             }
-            printf(": get %d meat cutlet\n", k);
+            printf("Burger_join: get %d meat cutlet\n", k);
         }
 
 
@@ -80,10 +80,12 @@ DWORD WINAPI BurgerJointThreadProc(PVOID arg) {
             break;
         }
 
+        printf("!!!%d %d\n", burgerJointBuns, burgerJointCutlet);
         if (burgerJointCutlet && burgerJointBuns) {
             burger += 1;
             burgerJointCutlet -= 1;
             burgerJointBuns -= 1;
+            printf("Burger_join: create burger\n", k);
         }
 
         if (burger == maxBurger) {

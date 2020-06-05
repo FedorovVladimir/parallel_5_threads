@@ -34,15 +34,27 @@ DWORD WINAPI MeatProcessingPlantThreadProc(PVOID arg) {
         Sleep(ping);
 
 
+        // отправляем котлеты в бургерную
+        int k = howManyCutletToBurger.getData();
+        if (k) {
+            int b = min(cutlet, k);
+            if (b) {
+                cutlet -= b;
+                sendCutletToBurger.setData(b);
+                printf("MeatProcessingPlant: send %d cutlet\n", b);
+            }
+        }
+
+
         // просим мясо у фермы
         if (meatProcessingPlantMeat < maxMeatProcessingPlantMeat) {
-            int k = (maxMeatProcessingPlantMeat - meatProcessingPlantMeat);
+            k = (maxMeatProcessingPlantMeat - meatProcessingPlantMeat);
             howManyMeatToBakery.setData(k);
             printf("MeatProcessingPlant: need %d meat from Farm\n", k);
         }
 
         // забираем мясо у фермы
-        int k = sendMeatToBakery.getData();
+        k = sendMeatToBakery.getData();
         if (k) {
             meatProcessingPlantMeat += k;
             if (meatProcessingPlantMeat > maxMeatProcessingPlantMeat) {

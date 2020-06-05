@@ -33,15 +33,26 @@ DWORD WINAPI BakeryThreadProc(PVOID arg) {
     while (true) {
         Sleep(ping);
 
+        // отправляем булочки в бургерную
+        int k = howManyBunsToBurger.getData();
+        if (k) {
+            int b = min(buns, k);
+            if (b) {
+                buns -= b;
+                sendBunsToBurger.setData(b);
+                printf("Bakery: send %d buns\n", b);
+            }
+        }
+
         // просим муку у фермы
         if (bakeryFlour < maxBakeryFlour) {
-            int k = (maxBakeryFlour - bakeryFlour);
+            k = (maxBakeryFlour - bakeryFlour);
             howManyFlourToBakery.setData(k);
             printf("Bakery: need %d flour from Farm\n", k);
         }
 
         // забираем муку у фермы
-        int k = sendFlourToBakery.getData();
+        k = sendFlourToBakery.getData();
         if (k) {
             bakeryFlour += k;
             if (bakeryFlour > maxBakeryFlour) {
