@@ -27,6 +27,9 @@ DWORD WINAPI MeatProcessingPlantThreadProc(PVOID arg) {
     IntegerChannel howManyMeatToBakery("hManyMeatF2B");
     IntegerChannel sendMeatToBakery("sendMeatF2B");
 
+    IntegerChannel howManyCutletToBurger("hManyCutletM2B");
+    IntegerChannel sendCutletToBurger("sendCutletM2B");
+
     while (true) {
         Sleep(ping);
 

@@ -27,6 +27,9 @@ DWORD WINAPI BakeryThreadProc(PVOID arg) {
     IntegerChannel howManyFlourToBakery("hManyFlourF2B");
     IntegerChannel sendFlourToBakery("sendFlourF2B");
 
+    IntegerChannel howManyBunsToBurger("hManyBunsB2B");
+    IntegerChannel sendBunsToBurger("sendBunsB2B");
+
     while (true) {
         Sleep(ping);
 
