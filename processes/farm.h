@@ -30,23 +30,25 @@ int maxStockFlour = 10; // максимальная вместимость за�
 int flourOfCycle = 0; // произведенная мука за цикл мука
 
 
-int stockVegetables = 0; // произведенные овощи в запасе
-int maxStockVegetables = 10; // максимальная вместимость запаса овощей
+int stockMeat = 0; // произведеное мясо в запасе
+int maxStockMeat = 10; // максимальная вместимость запаса мяса
 
-int vegetablesOfCycle = 0; // произведенные за цикл овощи
+int meatOfCycle = 0; // произведенные за цикл мясо
 
 
 DWORD WINAPI FarmThreadProc(PVOID arg) {
     int ping = 1000; // время одного цикла работ
     cout << "Farm start!\n";
     IntegerSemaphore endSemaphore("end_game");
-    BinarySemaphore warehouseHasPlaceForFlour("warehouse_has_place_for_flour", 1);
+
     BinarySemaphore marketHasPlaceForFlour("market_has_place_for_flour", 1);
-    BinarySemaphore warehouseHasPlaceForVegetables("warehouse_has_place_for_vegetables", 1);
-    BinarySemaphore marketHasPlaceForVegetables("market_has_place_for_vegetables", 1);
+    BinarySemaphore marketHasPlaceForMeat("market_has_place_for_meat", 1);
 
     IntegerChannel howManyFlourToBakery("hManyFlourF2B");
     IntegerChannel sendFlourToBakery("sendFlourF2B");
+
+    IntegerChannel howManyMeatToBakery("hManyMeatF2B");
+    IntegerChannel sendMeatToBakery("sendMeatF2B");
 
     while (true) {
         Sleep(ping);
@@ -55,9 +57,21 @@ DWORD WINAPI FarmThreadProc(PVOID arg) {
         int k = howManyFlourToBakery.getData();
         if (k) {
             int flour = min(stockFlour, k);
-            stockFlour -= flour;
-            sendFlourToBakery.setData(flour);
-            printf("Farm: send %d flour\n", flour);
+            if (flour) {
+                stockFlour -= flour;
+                sendFlourToBakery.setData(flour);
+                printf("Farm: send %d flour\n", flour);
+            }
+        }
+        // отправляем мясо в пекарню
+        k = howManyMeatToBakery.getData();
+        if (k) {
+            int meat = min(stockMeat, k);
+            if (meat) {
+                stockMeat -= meat;
+                sendMeatToBakery.setData(meat);
+                printf("Farm: send %d meat\n", meat);
+            }
         }
 
 
@@ -69,11 +83,6 @@ DWORD WINAPI FarmThreadProc(PVOID arg) {
             stockFlour += 1;
             flourOfCycle = 0;
             msg += "Transfer floor on stock.";
-        }
-        // передаем единицу муки на склад
-        if (flourOfCycle && warehouseHasPlaceForFlour.Down(1)) {
-            flourOfCycle = 0;
-            msg += "Transfer floor on warehouse.";
         }
         // продаем единицу муки
         if (flourOfCycle && marketHasPlaceForFlour.Down(1)) {
@@ -87,28 +96,23 @@ DWORD WINAPI FarmThreadProc(PVOID arg) {
         }
 
 
-        // производство овощей
-        vegetablesOfCycle = 1;
+        // производство мяса
+        meatOfCycle = 1;
         msg += " | Create 1 vegetables. ";
-        // передаем овощи в запас
-        if (stockVegetables < maxStockVegetables) {
-            stockVegetables += 1;
-            vegetablesOfCycle = 0;
+        // передаем мясо в запас
+        if (stockMeat < maxStockMeat) {
+            stockMeat += 1;
+            meatOfCycle = 0;
             msg += "Transfer floor on stock.";
         }
-        // передаем единицу овощей на склад
-        if (vegetablesOfCycle && warehouseHasPlaceForVegetables.Down(1)) {
-            vegetablesOfCycle = 0;
-            msg += "Transfer floor on warehouse.";
-        }
-        // продаем единицу овощей
-        if (vegetablesOfCycle && marketHasPlaceForVegetables.Down(1)) {
-            vegetablesOfCycle = 0;
+        // продаем единицу мяса
+        if (meatOfCycle && marketHasPlaceForMeat.Down(1)) {
+            meatOfCycle = 0;
             msg += "Transfer floor on market.";
         }
-        // выбрасываем овощи
-        if (vegetablesOfCycle) {
-            vegetablesOfCycle = 0;
+        // выбрасываем мясо
+        if (meatOfCycle) {
+            meatOfCycle = 0;
             msg += "Transfer floor on trash.";
         }
 
