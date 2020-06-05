@@ -16,6 +16,9 @@ using namespace std;
 int bakeryFlour = 0; // произведенная мука в запасе
 int maxBakeryFlour = 5; // максимальная вместимость запаса муки
 
+int buns = 0; // произведенные будочки
+int maxBuns = 10; // максимальная вместимость запаса булочек
+
 DWORD WINAPI BakeryThreadProc(PVOID arg) {
     int ping = 1000; // время одного цикла работ
     cout << "Bakery start!\n";
@@ -43,6 +46,22 @@ DWORD WINAPI BakeryThreadProc(PVOID arg) {
             }
             printf("Bakery: get %d flour from Farm\n", k);
         }
+
+        // делаем булочки
+        if (bakeryFlour >= 2) {
+            int b = bakeryFlour / 2;
+            if (b) {
+                if (buns < maxBuns) {
+                    bakeryFlour -= b * 2;
+                    buns += b;
+                    printf("Bakery: create %d buns\n", b);
+                    if (buns > maxBuns) {
+                        buns = maxBuns;
+                    }
+                }
+            }
+        }
+
 
         // конец игры
         if (endSemaphore.Down(100)) {
