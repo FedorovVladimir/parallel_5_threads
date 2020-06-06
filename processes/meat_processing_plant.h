@@ -74,11 +74,22 @@ DWORD WINAPI MeatProcessingPlantThreadProc(PVOID arg) {
                     meatProcessingPlantMeat -= b * 2;
                     cutlet += b;
                     printf("Bakery: create %d cutlet\n", b);
-                    if (cutlet > maxCutlet) {
-                        cutlet = maxCutlet;
-                    }
                 }
             }
+        }
+
+
+        // продаем единицу булочек
+        if (cutlet > maxCutlet) {
+            if (marketHasPlaceForCutlet.Down(1)) {
+                printf("Transfer cutlet on market.\n");
+                cutlet -= 1;
+            }
+        }
+        // выбрасываем булочки
+        if (cutlet > maxCutlet) {
+            printf("Transfer cutlet on trash.");
+            cutlet -= 1;
         }
 
 

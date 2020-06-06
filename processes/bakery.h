@@ -71,11 +71,22 @@ DWORD WINAPI BakeryThreadProc(PVOID arg) {
                     bakeryFlour -= b * 2;
                     buns += b;
                     printf("Bakery: create %d buns\n", b);
-                    if (buns > maxBuns) {
-                        buns = maxBuns;
-                    }
                 }
             }
+        }
+
+
+        // продаем единицу булочек
+        if (buns > maxBuns) {
+            if (marketHasPlaceForBuns.Down(1)) {
+                printf("Transfer buns on market.\n");
+                buns -= 1;
+            }
+        }
+        // выбрасываем булочки
+        if (buns > maxBuns) {
+            printf("Transfer buns on trash.");
+            buns -= 1;
         }
 
 
