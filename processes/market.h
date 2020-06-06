@@ -18,6 +18,11 @@ DWORD WINAPI MarketThreadProc(PVOID arg) {
     cout << "Market start!\n";
     IntegerSemaphore endSemaphore("end_game");
 
+    BinarySemaphore marketHasPlaceForFlour("market_has_place_for_flour", 1);
+    BinarySemaphore marketHasPlaceForMeat("market_has_place_for_meat", 1);
+    BinarySemaphore marketHasPlaceForCutlet("market_has_place_for_cutlet", 1);
+    BinarySemaphore marketHasPlaceForBuns("market_has_place_for_buns", 1);
+
     while (true) {
         Sleep(ping);
 

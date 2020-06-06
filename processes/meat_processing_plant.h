@@ -24,6 +24,8 @@ DWORD WINAPI MeatProcessingPlantThreadProc(PVOID arg) {
     cout << "MeatProcessingPlant start!\n";
     IntegerSemaphore endSemaphore("end_game");
 
+    BinarySemaphore marketHasPlaceForCutlet("market_has_place_for_cutlet", 1);
+
     IntegerChannel howManyMeatToBakery("hManyMeatF2B");
     IntegerChannel sendMeatToBakery("sendMeatF2B");
 

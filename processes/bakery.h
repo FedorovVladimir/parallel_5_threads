@@ -24,6 +24,8 @@ DWORD WINAPI BakeryThreadProc(PVOID arg) {
     cout << "Bakery start!\n";
     IntegerSemaphore endSemaphore("end_game");
 
+    BinarySemaphore marketHasPlaceForBuns("market_has_place_for_buns", 1);
+
     IntegerChannel howManyFlourToBakery("hManyFlourF2B");
     IntegerChannel sendFlourToBakery("sendFlourF2B");
 
