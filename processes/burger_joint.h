@@ -97,7 +97,7 @@ DWORD WINAPI BurgerJointThreadProc(PVOID arg) {
 }
 
 void endGame(IntegerSemaphore &endSemaphore) {
-    endSemaphore.Up(6);
+    endSemaphore.Up(5);
 }
 
 #endif //PARALLEL_5_THREADS_BURGER_JOINT_H
